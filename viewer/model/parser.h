@@ -18,11 +18,14 @@ class Parser {
   int status_ = 0;
   OBJFile obj_file_;
   std::ifstream input_file_;
+  std::string file_name;
 
   bool Processing(std::string file_path);
   bool OpenFile(std::string file_path);
   void ReadingFacetsAndVertexes(std::string file_path);
   void clearData();
+  std::string FindFileName(std::string file_path);
+  
 
   int get_status() const;
   OBJFile get_obj() const;

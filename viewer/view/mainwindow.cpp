@@ -2,315 +2,270 @@
 
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow) {
-  ui->setupUi(this);
-  QPixmap label_2(":/img/13.jpg");
-  int w = ui->label_2->width();
-  int h = ui->label_2->height();
-  ui->label_2->setPixmap(label_2.scaled(w, h, Qt::KeepAspectRatio));
+s21::MainWindow::MainWindow(QWidget *parent, controller *c1)
+    : QMainWindow(parent), ui_(new Ui::MainWindow), c_(c1) {
+  ui_->setupUi(this);
 
-  QPixmap label_3(":/img/9.png");
-  int w1 = ui->label_3->width();
-  int h1 = ui->label_3->height();
-  ui->label_3->setPixmap(label_3.scaled(w1, h1, Qt::KeepAspectRatio));
 
-  QPixmap label_4(":/img/17.jpeg");
-  int w6 = ui->label_4->width();
-  int h6 = ui->label_4->height();
-  ui->label_4->setPixmap(label_4.scaled(w6, h6, Qt::KeepAspectRatio));
+  LoadAndScaleImages();
+  glWidget_ = new GLWidget(this, &obj_data_);
 
-  QPixmap label_6(":/img/1.png");
-  int w2 = ui->label_6->width();
-  int h2 = ui->label_6->height();
-  ui->label_6->setPixmap(label_6.scaled(w2, h2, Qt::KeepAspectRatio));
+  ui_->layoutForOpenGL->addWidget(glWidget_);
 
-  QPixmap label_7(":/img/7.png");
-  int w3 = ui->label_7->width();
-  int h3 = ui->label_7->height();
-  ui->label_7->setPixmap(label_7.scaled(w3, h3, Qt::KeepAspectRatio));
-
-  QPixmap label_12(":/img/8.png");
-  int w4 = ui->label_12->width();
-  int h4 = ui->label_12->height();
-  ui->label_12->setPixmap(label_12.scaled(w4, h4, Qt::KeepAspectRatio));
-
-  QPixmap label_16(":/img/16.webp");
-  int w5 = ui->label_16->width();
-  int h5 = ui->label_16->height();
-  ui->label_16->setPixmap(label_16.scaled(w5, h5, Qt::KeepAspectRatio));
-
-  QPixmap label_5(":/img/17.jpeg");
-  int w8 = ui->label_5->width();
-  int h8 = ui->label_5->height();
-  ui->label_5->setPixmap(label_5.scaled(w8, h8, Qt::KeepAspectRatio));
-
-  QPixmap label_11(":/img/17.jpeg");
-  int w9 = ui->label_11->width();
-  int h9 = ui->label_11->height();
-  ui->label_11->setPixmap(label_11.scaled(w9, h9, Qt::KeepAspectRatio));
-
-  QPixmap label_17(":/img/17.jpeg");
-  int w10 = ui->label_17->width();
-  int h10 = ui->label_17->height();
-  ui->label_17->setPixmap(label_17.scaled(w10, h10, Qt::KeepAspectRatio));
-
-  QPixmap label_18(":/img/21.png");
-  int w11 = ui->label_18->width();
-  int h11 = ui->label_18->height();
-  ui->label_18->setPixmap(label_18.scaled(w11, h11, Qt::KeepAspectRatio));
-
-  QPixmap label_24(":/img/22.png");
-  int w12 = ui->label_24->width();
-  int h12 = ui->label_24->height();
-  ui->label_24->setPixmap(label_24.scaled(w12, h12, Qt::KeepAspectRatio));
-
-  QPixmap label_25(":/img/17.jpeg");
-  int w13 = ui->label_25->width();
-  int h13 = ui->label_25->height();
-  ui->label_25->setPixmap(label_25.scaled(w13, h13, Qt::KeepAspectRatio));
-
-  QPixmap label_31(":/img/17.jpeg");
-  int w14 = ui->label_31->width();
-  int h14 = ui->label_31->height();
-  ui->label_31->setPixmap(label_31.scaled(w14, h14, Qt::KeepAspectRatio));
-
-  QPixmap label_32(":/img/23.png");
-  int w15 = ui->label_32->width();
-  int h15 = ui->label_32->height();
-  ui->label_32->setPixmap(label_32.scaled(w15, h15, Qt::KeepAspectRatio));
-
-  QPixmap label_36(":/img/17.jpeg");
-  int w16 = ui->label_36->width();
-  int h16 = ui->label_36->height();
-  ui->label_36->setPixmap(label_36.scaled(w16, h16, Qt::KeepAspectRatio));
-
-  QPixmap label_37(":/img/24.png");
-  int w17 = ui->label_37->width();
-  int h17 = ui->label_37->height();
-  ui->label_37->setPixmap(label_37.scaled(w17, h17, Qt::KeepAspectRatio));
-
-  glWidget = new GLWidget(this);
-
-  ui->layoutForOpenGL->addWidget(glWidget);
-
-  p_ = new s21::Parser();
+  gif_ = new s21::Gif(this);
+  gif_->setGLWidget(glWidget_);
+  gif_->setUI(ui_);
 }
 
-MainWindow::~MainWindow() {
-  delete glWidget;
-  delete p_;
-  delete ui;
+s21::MainWindow::~MainWindow() {
+  delete glWidget_;
+  delete gif_;
+//  delete c_;
+  delete ui_;
 }
 
-void MainWindow::on_load_clicked() {
+
+
+void s21::MainWindow::SetImageForLabel(QLabel* label, const QString& imagePath) {
+    QPixmap pixmap(imagePath);
+    int w = label->width();
+    int h = label->height();
+    label->setPixmap(pixmap.scaled(w, h, Qt::KeepAspectRatio));
+}
+
+void s21::MainWindow::LoadAndScaleImages() {
+    SetImageForLabel(ui_->label_2, ":/img/13.jpg");
+    SetImageForLabel(ui_->label_3, ":/img/9.png");
+    SetImageForLabel(ui_->label_4, ":/img/17.jpeg");
+    SetImageForLabel(ui_->label_6, ":/img/1.png");
+    SetImageForLabel(ui_->label_7, ":/img/7.png");
+    SetImageForLabel(ui_->label_12, ":/img/8.png");
+    SetImageForLabel(ui_->label_16, ":/img/16.webp");
+    SetImageForLabel(ui_->label_5, ":/img/17.jpeg");
+    SetImageForLabel(ui_->label_11, ":/img/17.jpeg");
+    SetImageForLabel(ui_->label_17, ":/img/17.jpeg");
+    SetImageForLabel(ui_->label_18, ":/img/21.png");
+    SetImageForLabel(ui_->label_24, ":/img/22.png");
+    SetImageForLabel(ui_->label_25, ":/img/17.jpeg");
+    SetImageForLabel(ui_->label_31, ":/img/17.jpeg");
+    SetImageForLabel(ui_->label_32, ":/img/23.png");
+    SetImageForLabel(ui_->label_36, ":/img/17.jpeg");
+    SetImageForLabel(ui_->label_37, ":/img/24.png");
+}
+
+void s21::MainWindow::on_load_clicked() {
 
   QString fileName = QFileDialog::getOpenFileName(
       this, tr("Open File"), "/home", tr("Object (*.obj)"));
-  ui->label->setText(fileName);
+  ui_->label->setText(fileName);
 }
 
-void MainWindow::on_start_pressed() {
-  std::string str = ui->label->text().toStdString();
-  int status_ = 0;
-  s21::OBJFile obj_file_ ;
-  std::ifstream input_file_;
-  glWidget->clearModel();
-  p_->clearData();
-  p_->Processing(str);
-  s21::OBJFile objData = p_->get_obj();
+void s21::MainWindow::on_start_pressed() {
+  std::string str = ui_->label->text().toStdString();
+  glWidget_->clearModel();
+  c_->Processing(str);
+  obj_data_ = c_->get_obj();
 
-  glWidget->setVerticesAndFacets(objData.vertexes, objData.facets,
-                                 objData.num_facets, objData.num_vertexes);
+  ui_->start->setDisabled(1);
+  ui_->start->setDisabled(0);
 
-  ui->start->setDisabled(1);
-  ui->start->setDisabled(1);
-  ui->start->setDisabled(0);
+  ui_->VerticesLabel->setText(QString::number(obj_data_.num_vertexes));
+  ui_->EdgesLabel->setText(QString::number(obj_data_.num_facets / 3));
 
-  int numVertices = objData.num_vertexes;
-  int numFacets = objData.num_facets / 3;
+  std::string std_filename = ui_->label->text().toStdString();
+  ui_->file_name->setText(QString::fromStdString(c_->FindFileName(std_filename)));
 
-  ui->VerticesLabel->setText(QString::number(numVertices));
-  ui->EdgesLabel->setText(QString::number(numFacets));
-
-  glWidget->update();
+  glWidget_->update();
 }
 
-void MainWindow::on_X_valueChanged(double arg1) {
-  glWidget->x_coord = arg1;
-  glWidget->update();
+void s21::MainWindow::on_X_valueChanged(double arg1) {
+  glWidget_->x_coord = arg1;
+  glWidget_->update();
 }
 
-void MainWindow::on_Y_valueChanged(double arg1) {
-  glWidget->y_coord = arg1;
-  glWidget->update();
+void s21::MainWindow::on_Y_valueChanged(double arg1) {
+  glWidget_->y_coord = arg1;
+  glWidget_->update();
 }
 
-void MainWindow::on_Z_valueChanged(double arg1) {
-  glWidget->z_coord = arg1;
-  glWidget->update();
+void s21::MainWindow::on_Z_valueChanged(double arg1) {
+  glWidget_->z_coord = arg1;
+  glWidget_->update();
 }
 
-void MainWindow::on_X_2_valueChanged(double arg1)
+void s21::MainWindow::on_X_2_valueChanged(double arg1)
 {
-    glWidget->x_coord_rotate = arg1;
-    glWidget->update();
+    glWidget_->x_coord_rotate = arg1;
+    glWidget_->update();
 }
 
 
-void MainWindow::on_Y_2_valueChanged(double arg1)
+void s21::MainWindow::on_Y_2_valueChanged(double arg1)
 {
-    glWidget->y_coord_rotate = arg1;
-    glWidget->update();
-
-}
-
-
-void MainWindow::on_Z_2_valueChanged(double arg1)
-{
-    glWidget->z_coord_rotate = arg1;
-    glWidget->update();
-}
-
-
-void MainWindow::on_X_3_valueChanged(double arg1)
-{
-    glWidget->scale_x = arg1;
-    glWidget->update();
+    glWidget_->y_coord_rotate = arg1;
+    glWidget_->update();
 
 }
 
 
-void MainWindow::on_Y_3_valueChanged(double arg1)
+void s21::MainWindow::on_Z_2_valueChanged(double arg1)
 {
-    glWidget->scale_y = arg1;
-    glWidget->update();
+    glWidget_->z_coord_rotate = arg1;
+    glWidget_->update();
 }
 
 
-void MainWindow::on_projection_type_toggled(bool checked)
+void s21::MainWindow::on_X_3_valueChanged(double arg1)
 {
-    glWidget->projection_type = 1;
-    glWidget->update();
-
-}
-
-
-void MainWindow::on_radioButton_toggled(bool checked)
-{
-    glWidget->projection_type = 0;
-    glWidget->update();
+    glWidget_->scale_x = arg1;
+    glWidget_->update();
 
 }
 
 
-void MainWindow::on_red_valueChanged(double arg1)
+void s21::MainWindow::on_Y_3_valueChanged(double arg1)
 {
-    glWidget->c_red = arg1;
-    glWidget->update();
+    glWidget_->scale_y = arg1;
+    glWidget_->update();
+}
+
+
+void s21::MainWindow::on_projection_type_toggled(bool checked)
+{
+    glWidget_->projection_type = 1;
+    glWidget_->update();
 
 }
 
 
-void MainWindow::on_gren_valueChanged(double arg1)
+void s21::MainWindow::on_radioButton_toggled(bool checked)
 {
-    glWidget->c_green = arg1;
-    glWidget->update();
+    glWidget_->projection_type = 0;
+    glWidget_->update();
 
 }
 
 
-void MainWindow::on_blue_valueChanged(double arg1)
+void s21::MainWindow::on_red_valueChanged(double arg1)
 {
-    glWidget->c_blue = arg1;
-    glWidget->update();
+    glWidget_->c_red = arg1;
+    glWidget_->update();
 
 }
 
 
-void MainWindow::on_radioButton_2_toggled(bool checked)
+void s21::MainWindow::on_gren_valueChanged(double arg1)
 {
-    glWidget->mode = 0;
-}
-
-
-void MainWindow::on_radioButton_3_toggled(bool checked)
-{
-    glWidget->mode = 1;
-}
-
-
-void MainWindow::on_lineWidth_valueChanged(double arg1)
-{
-    glWidget->line_width = arg1;
-    glWidget->update();
+    glWidget_->c_green = arg1;
+    glWidget_->update();
 
 }
 
 
-void MainWindow::on_verticle_Size_valueChanged(double arg1)
+void s21::MainWindow::on_blue_valueChanged(double arg1)
 {
-    glWidget->verticle_width = arg1;
-    glWidget->update();
+    glWidget_->c_blue = arg1;
+    glWidget_->update();
 
 }
 
 
-void MainWindow::on_red_verticle_valueChanged(double arg1)
+void s21::MainWindow::on_radioButton_2_toggled(bool checked)
 {
-    glWidget->v_red = arg1;
-    glWidget->update();
+    glWidget_->mode = 0;
+}
+
+
+void s21::MainWindow::on_radioButton_3_toggled(bool checked)
+{
+    glWidget_->mode = 1;
+}
+
+
+void s21::MainWindow::on_lineWidth_valueChanged(double arg1)
+{
+    glWidget_->line_width = arg1;
+    glWidget_->update();
 
 }
 
 
-void MainWindow::on_green_verticle_valueChanged(double arg1)
+void s21::MainWindow::on_verticle_Size_valueChanged(double arg1)
 {
-    glWidget->v_green = arg1;
-    glWidget->update();
+    glWidget_->verticle_width = arg1;
+    glWidget_->update();
 
 }
 
 
-void MainWindow::on_blue_verticle_valueChanged(double arg1)
+void s21::MainWindow::on_red_verticle_valueChanged(double arg1)
 {
-    glWidget->v_blue = arg1;
-    glWidget->update();
+    glWidget_->v_red = arg1;
+    glWidget_->update();
 
 }
 
 
-void MainWindow::on_red_line_valueChanged(double arg1)
+void s21::MainWindow::on_green_verticle_valueChanged(double arg1)
 {
-    glWidget->l_red = arg1;
-    glWidget->update();
+    glWidget_->v_green = arg1;
+    glWidget_->update();
 
 }
 
 
-void MainWindow::on_green_line_valueChanged(double arg1)
+void s21::MainWindow::on_blue_verticle_valueChanged(double arg1)
 {
-    glWidget->l_green = arg1;
-    glWidget->update();
+    glWidget_->v_blue = arg1;
+    glWidget_->update();
 
 }
 
 
-void MainWindow::on_blue_line_valueChanged(double arg1)
+void s21::MainWindow::on_red_line_valueChanged(double arg1)
 {
-    glWidget->l_blue = arg1;
-    glWidget->update();
+    glWidget_->l_red = arg1;
+    glWidget_->update();
 
 }
 
-void MainWindow::on_radioButton_5_toggled(bool checked)
+
+void s21::MainWindow::on_green_line_valueChanged(double arg1)
 {
-    glWidget->verticle_mode = 1;
+    glWidget_->l_green = arg1;
+    glWidget_->update();
+
 }
 
 
-void MainWindow::on_radioButton_6_toggled(bool checked)
+void s21::MainWindow::on_blue_line_valueChanged(double arg1)
 {
-    glWidget->verticle_mode = 2;
+    glWidget_->l_blue = arg1;
+    glWidget_->update();
+
+}
+
+void s21::MainWindow::on_radioButton_5_toggled(bool checked)
+{
+    glWidget_->verticle_mode = 1;
+}
+
+
+void s21::MainWindow::on_radioButton_6_toggled(bool checked)
+{
+    glWidget_->verticle_mode = 2;
+}
+
+
+void s21::MainWindow::on_screenshot_clicked()
+{
+    gif_->button_screen_pressed(this);
+
+}
+
+
+void s21::MainWindow::on_gif_clicked()
+{
+    gif_->button_pressed(this);
 }
 

@@ -6,34 +6,29 @@
 #include <QWidget>
 #include <vector>
 #include <GLUT/glut.h>
+#include "../model/parser.h"
 
 #define GL_SILENCE_DEPRECATION
 
 #include <OpenGL/gl.h>
-
+namespace s21{
 class GLWidget : public QOpenGLWidget {
   Q_OBJECT
  public:
-  explicit GLWidget(QWidget* parent = nullptr);
+    explicit GLWidget(QWidget* parent = nullptr, s21::OBJFile *objData = nullptr);
 
  public slots:
-  void setVerticesAndFacets(const std::vector<double>& vertices,
-                            const std::vector<int>& facets, int f, int v);
   void initializeGL() override;
   void resizeGL(int w, int h) override;
   void paintGL() override;
   void stipple();
   void verticleMode();
-
   void clearModel();
 
  private:
-  std::vector<double> vertices;
-  std::vector<int> facets;
-  float num_facets;
-  int num_vertices;
   void mouseMoveEvent(QMouseEvent *mo) override;
   void mousePressEvent(QMouseEvent *mo) override;
+  s21::OBJFile *objData_;
 
  public:
   float x_coord = 0, y_coord = 0, z_coord = -10;
@@ -50,5 +45,5 @@ class GLWidget : public QOpenGLWidget {
   float x_rot, y_rot;
   QPoint m_pos;
 };
-
+} //namespace s21
 #endif  // GLWIDGET_H

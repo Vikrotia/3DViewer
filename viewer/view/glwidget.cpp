@@ -1,30 +1,22 @@
 #include "glwidget.h"
 
-GLWidget::GLWidget(QWidget *parent) : QOpenGLWidget(parent) {}
+s21::GLWidget::GLWidget(QWidget *parent, s21::OBJFile *objData) : QOpenGLWidget(parent), objData_(objData) {}
 
-void GLWidget::setVerticesAndFacets(const std::vector<double> &vertices,
-                                    const std::vector<int> &facets, int f, int v) {
-  this->vertices = vertices;
-  this->facets = facets;
-  this->num_facets = f;
-  this->num_vertices = v;
-  update();
-}
-
-void GLWidget::initializeGL() {
+void s21::GLWidget::initializeGL() {
   glClearColor(c_red, c_green, c_blue, 1.0f);
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_CULL_FACE);
+
 }
 
-void GLWidget::resizeGL(int w, int h) {
+void s21::GLWidget::resizeGL(int w, int h) {
   glViewport(0, 0, w, h);
   glLoadIdentity();
 }
 
-void GLWidget::paintGL() {
+void s21::GLWidget::paintGL() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glVertexPointer(3, GL_DOUBLE, 0, vertices.data());
+  glVertexPointer(3, GL_DOUBLE, 0, objData_->vertexes.data());
   glClearColor(c_red, c_green, c_blue, 1.0f);
   glEnableClientState(GL_VERTEX_ARRAY);
   glLoadIdentity();
@@ -47,37 +39,37 @@ void GLWidget::paintGL() {
   glColor3f(l_red, l_green, l_blue);
   stipple();
 
-  glDrawElements(GL_LINES, facets.size(), GL_UNSIGNED_INT, facets.data());
+  glDrawElements(GL_LINES, objData_->facets.size(), GL_UNSIGNED_INT, objData_->facets.data());
   glColor3f(v_red, v_green, v_blue);
   glPointSize(verticle_width);
   verticleMode();
   glDisableClientState(GL_VERTEX_ARRAY);
 }
 
-void GLWidget::clearModel() {
-    vertices.clear();
-    facets.clear();
-    num_vertices = 0;
-    num_facets = 0;
+void s21::GLWidget::clearModel() {
+    objData_->facets.clear();
+    objData_->vertexes.clear();
+    objData_->num_vertexes = 0;
+    objData_->num_facets = 0;
     update();
 }
 
 
-void GLWidget::mouseMoveEvent(QMouseEvent *mo)
+void s21::GLWidget::mouseMoveEvent(QMouseEvent *mo)
 {
 x_rot = 1/M_PI*(mo->pos().y()-m_pos.y());
 y_rot = 1/M_PI*(mo->pos().x()-m_pos.x());
 update();
 }
 
-void GLWidget::mousePressEvent(QMouseEvent *mo)
+void s21::GLWidget::mousePressEvent(QMouseEvent *mo)
 {
 m_pos = mo->pos();
 }
 
 
 
-void GLWidget::stipple() {
+void s21::GLWidget::stipple() {
   if (mode == 0) {
     if (glIsEnabled(GL_LINE_STIPPLE)) glDisable(GL_LINE_STIPPLE);
   } else {
@@ -90,13 +82,13 @@ void GLWidget::stipple() {
 }
 
 
-void GLWidget::verticleMode() {
+void s21::GLWidget::verticleMode() {
   if (verticle_mode == 1) {
     if (!glIsEnabled(GL_POINT_SMOOTH)) glEnable(GL_POINT_SMOOTH);
-    glDrawArrays(GL_POINTS, 0, num_vertices);
+    glDrawArrays(GL_POINTS, 0, objData_->num_vertexes);
   } else if (verticle_mode == 2) {
     if (glIsEnabled(GL_POINT_SMOOTH)) glDisable(GL_POINT_SMOOTH);
-    glDrawArrays(GL_POINTS, 0, num_vertices);
+    glDrawArrays(GL_POINTS, 0, objData_->num_vertexes);
   }
   update();
 }

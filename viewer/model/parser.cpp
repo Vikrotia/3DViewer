@@ -9,6 +9,7 @@ bool s21::Parser::OpenFile(std::string file_path) {
 }
 
 bool s21::Parser::Processing(std::string file_path) {
+  clearData();
   if (OpenFile(file_path)) {
     ReadingFacetsAndVertexes(file_path);
   } else {
@@ -55,4 +56,14 @@ void s21::Parser::ReadingFacetsAndVertexes(std::string file_path) {
 void s21::Parser::clearData() {
     obj_file_ = OBJFile{};
     status_ = 0;
+}
+
+std::string s21::Parser::FindFileName(std::string file_path) {
+std::string start;
+size_t lastSlashPos = file_path.find_last_of('/');
+size_t extPos = file_path.find_last_of('.');
+if (lastSlashPos != std::string::npos && extPos != std::string::npos) {
+  start = file_path.substr(lastSlashPos + 1, extPos - lastSlashPos - 1);
+}
+return start;
 }
