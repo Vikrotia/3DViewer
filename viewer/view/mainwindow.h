@@ -7,12 +7,12 @@
 #include <QLabel>
 #include <QMessageBox>
 #include <QDateTime>
+#include <QSettings>
 
 
 #include <qgifimage.h>
 #include "glwidget.h"
 #include "../controller/controller.h"
-//#include "../model/parser.h"
 #include "gif.h"
 
 QT_BEGIN_NAMESPACE
@@ -61,14 +61,17 @@ class MainWindow : public QMainWindow {
   void LoadAndScaleImages();
   void on_screenshot_clicked();
   void on_gif_clicked();
+  void load_settings();
+  void save_settings();
+
 
 private:
   OBJFile obj_data_;
   Ui::MainWindow *ui_;
   GLWidget *glWidget_;
-//  s21::Parser *p_;
   controller *c_;
   s21::Gif *gif_;
+  QSettings *settings_;
 };
 
 }// namespace s21

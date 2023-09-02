@@ -15,12 +15,15 @@ s21::MainWindow::MainWindow(QWidget *parent, controller *c1)
   gif_ = new s21::Gif(this);
   gif_->setGLWidget(glWidget_);
   gif_->setUI(ui_);
+  settings_ = new QSettings("21school", "3D_Viewer", this);
+  load_settings();
 }
 
 s21::MainWindow::~MainWindow() {
+  save_settings();
   delete glWidget_;
   delete gif_;
-//  delete c_;
+  delete settings_;
   delete ui_;
 }
 
@@ -267,5 +270,47 @@ void s21::MainWindow::on_screenshot_clicked()
 void s21::MainWindow::on_gif_clicked()
 {
     gif_->button_pressed(this);
+}
+
+void s21::MainWindow::load_settings()
+{
+    QVariant settingsValue = settings_->value("settings");
+    if (settingsValue.isValid() && settingsValue.toInt()){
+        ui_->projection_type->setChecked(settings_->value("perspective", true).toBool());
+        ui_->radioButton->setChecked(settings_->value("ortho", false).toBool());
+        ui_->radioButton_2->setChecked(settings_->value("dotted_on", false).toBool());
+        ui_->radioButton_3->setChecked(settings_->value("dotted_off", true).toBool());
+        ui_->radioButton_5->setChecked(settings_->value("verticle_on", false).toBool());
+        ui_->radioButton_6->setChecked(settings_->value("verticle_off", true).toBool());
+        ui_->red_verticle->setValue(settings_->value("verticle_red", 0.0).toDouble());
+        ui_->green_verticle->setValue(settings_->value("verticle_green", 0.0).toDouble());
+        ui_->blue_verticle->setValue(settings_->value("verticle_blue", 0.0).toDouble());
+        ui_->red_line->setValue(settings_->value("line_red", 0.0).toDouble());
+        ui_->green_line->setValue(settings_->value("line_green", 0.0).toDouble());
+        ui_->blue_line->setValue(settings_->value("line_blue", 0.0).toDouble());
+        ui_->red->setValue(settings_->value("red", 0.0).toDouble());
+        ui_->gren->setValue(settings_->value("green", 0.0).toDouble());
+        ui_->blue->setValue(settings_->value("blue", 0.0).toDouble());
+    }
+}
+
+void s21::MainWindow::save_settings()
+{
+    settings_->setValue("settings", 1);
+    settings_->setValue("perspective", ui_->projection_type->isChecked());
+    settings_->setValue("ortho", ui_->radioButton->isChecked());
+    settings_->setValue("dotted_on", ui_->radioButton_2->isChecked());
+    settings_->setValue("dotted_off", ui_->radioButton_3->isChecked());
+    settings_->setValue("verticle_on", ui_->radioButton_5->isChecked());
+    settings_->setValue("verticle_off", ui_->radioButton_6->isChecked());
+    settings_->setValue("verticle_red", ui_->red_verticle->value());
+    settings_->setValue("verticle_green", ui_->green_verticle->value());
+    settings_->setValue("verticle_blue", ui_->blue_verticle->value());
+    settings_->setValue("line_red", ui_->red_line->value());
+    settings_->setValue("line_green", ui_->green_line->value());
+    settings_->setValue("line_blue", ui_->blue_line->value());
+    settings_->setValue("backround_red", ui_->red->value());
+    settings_->setValue("backround_green", ui_->gren->value());
+    settings_->setValue("backround_blue", ui_->blue->value());
 }
 
