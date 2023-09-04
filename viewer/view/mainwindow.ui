@@ -1188,6 +1188,9 @@ color:rgb(63, 3, 113);</string>
     <property name="text">
      <string>Off</string>
     </property>
+    <property name="checked">
+     <bool>true</bool>
+    </property>
    </widget>
    <widget class="QLabel" name="label_24">
     <property name="geometry">

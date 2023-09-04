@@ -1,19 +1,19 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QFileDialog>
-#include <QMainWindow>
-#include <QPixmap>
-#include <QLabel>
-#include <QMessageBox>
+#include <qgifimage.h>
+
 #include <QDateTime>
+#include <QFileDialog>
+#include <QLabel>
+#include <QMainWindow>
+#include <QMessageBox>
+#include <QPixmap>
 #include <QSettings>
 
-
-#include <qgifimage.h>
-#include "glwidget.h"
 #include "../controller/controller.h"
 #include "gif.h"
+#include "glwidget.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -57,15 +57,14 @@ class MainWindow : public QMainWindow {
   void on_blue_line_valueChanged(double arg1);
   void on_radioButton_5_toggled(bool checked);
   void on_radioButton_6_toggled(bool checked);
-  void SetImageForLabel(QLabel* label, const QString& imagePath);
+  void SetImageForLabel(QLabel *label, const QString &imagePath);
   void LoadAndScaleImages();
   void on_screenshot_clicked();
   void on_gif_clicked();
   void load_settings();
   void save_settings();
 
-
-private:
+ private:
   OBJFile obj_data_;
   Ui::MainWindow *ui_;
   GLWidget *glWidget_;
@@ -74,6 +73,6 @@ private:
   QSettings *settings_;
 };
 
-}// namespace s21
+}  // namespace s21
 
 #endif  // MAINWINDOW_H

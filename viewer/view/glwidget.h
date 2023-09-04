@@ -1,21 +1,23 @@
 #ifndef GLWIDGET_H
 #define GLWIDGET_H
 
-#include <QOpenGLWidget>
+#include <GLUT/glut.h>
+
 #include <QMouseEvent>
+#include <QOpenGLWidget>
 #include <QWidget>
 #include <vector>
-#include <GLUT/glut.h>
+
 #include "../model/parser.h"
 
 #define GL_SILENCE_DEPRECATION
 
 #include <OpenGL/gl.h>
-namespace s21{
+namespace s21 {
 class GLWidget : public QOpenGLWidget {
   Q_OBJECT
  public:
-    explicit GLWidget(QWidget* parent = nullptr, s21::OBJFile *objData = nullptr);
+  explicit GLWidget(QWidget *parent = nullptr, s21::OBJFile *objData = nullptr);
 
  public slots:
   void initializeGL() override;
@@ -40,10 +42,10 @@ class GLWidget : public QOpenGLWidget {
   float c_red = 0.0, c_blue = 0.0, c_green = 0.0;
   float v_red = 1.0, v_blue = 0.0, v_green = 0.0;
   float l_red = 0.0, l_blue = 0.0, l_green = 1.0;
-
+  bool file_exist = false;
 
   float x_rot, y_rot;
   QPoint m_pos;
 };
-} //namespace s21
+}  // namespace s21
 #endif  // GLWIDGET_H

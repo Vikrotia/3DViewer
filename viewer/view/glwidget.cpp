@@ -1,12 +1,12 @@
 #include "glwidget.h"
 
-s21::GLWidget::GLWidget(QWidget *parent, s21::OBJFile *objData) : QOpenGLWidget(parent), objData_(objData) {}
+s21::GLWidget::GLWidget(QWidget *parent, s21::OBJFile *objData)
+    : QOpenGLWidget(parent), objData_(objData) {}
 
 void s21::GLWidget::initializeGL() {
   glClearColor(c_red, c_green, c_blue, 1.0f);
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_CULL_FACE);
-
 }
 
 void s21::GLWidget::resizeGL(int w, int h) {
@@ -23,10 +23,9 @@ void s21::GLWidget::paintGL() {
   glMatrixMode(GL_MODELVIEW);
 
   if (projection_type == 0)
-      glOrtho(-5, 5, -5, 5, 0.1f, 2000);
-    else
-      gluPerspective(90.0f, width() / height(), 0.1f, 1000.0f);
-
+    glOrtho(-5, 5, -5, 5, 0.1f, 2000);
+  else
+    gluPerspective(90.0f, width() / height(), 0.1f, 1000.0f);
 
   glTranslated(x_coord, y_coord, z_coord);
   glScaled(scale_x, scale_y, 1);
@@ -39,7 +38,8 @@ void s21::GLWidget::paintGL() {
   glColor3f(l_red, l_green, l_blue);
   stipple();
 
-  glDrawElements(GL_LINES, objData_->facets.size(), GL_UNSIGNED_INT, objData_->facets.data());
+  glDrawElements(GL_LINES, objData_->facets.size(), GL_UNSIGNED_INT,
+                 objData_->facets.data());
   glColor3f(v_red, v_green, v_blue);
   glPointSize(verticle_width);
   verticleMode();
@@ -47,27 +47,20 @@ void s21::GLWidget::paintGL() {
 }
 
 void s21::GLWidget::clearModel() {
-    objData_->facets.clear();
-    objData_->vertexes.clear();
-    objData_->num_vertexes = 0;
-    objData_->num_facets = 0;
-    update();
+  objData_->facets.clear();
+  objData_->vertexes.clear();
+  objData_->num_vertexes = 0;
+  objData_->num_facets = 0;
+  update();
 }
 
-
-void s21::GLWidget::mouseMoveEvent(QMouseEvent *mo)
-{
-x_rot = 1/M_PI*(mo->pos().y()-m_pos.y());
-y_rot = 1/M_PI*(mo->pos().x()-m_pos.x());
-update();
+void s21::GLWidget::mouseMoveEvent(QMouseEvent *mo) {
+  x_rot = 1 / M_PI * (mo->pos().y() - m_pos.y());
+  y_rot = 1 / M_PI * (mo->pos().x() - m_pos.x());
+  update();
 }
 
-void s21::GLWidget::mousePressEvent(QMouseEvent *mo)
-{
-m_pos = mo->pos();
-}
-
-
+void s21::GLWidget::mousePressEvent(QMouseEvent *mo) { m_pos = mo->pos(); }
 
 void s21::GLWidget::stipple() {
   if (mode == 0) {
@@ -81,16 +74,13 @@ void s21::GLWidget::stipple() {
   update();
 }
 
-
 void s21::GLWidget::verticleMode() {
-  if (verticle_mode == 1) {
+  if (verticle_mode == 1 && file_exist) {
     if (!glIsEnabled(GL_POINT_SMOOTH)) glEnable(GL_POINT_SMOOTH);
     glDrawArrays(GL_POINTS, 0, objData_->num_vertexes);
-  } else if (verticle_mode == 2) {
+  } else if (verticle_mode == 2 && file_exist) {
     if (glIsEnabled(GL_POINT_SMOOTH)) glDisable(GL_POINT_SMOOTH);
     glDrawArrays(GL_POINTS, 0, objData_->num_vertexes);
   }
   update();
 }
-
-
