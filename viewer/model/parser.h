@@ -25,10 +25,10 @@ class Parser {
   void ReadingFacetsAndVertexes(std::string file_path);
   void clearData();
   std::string FindFileName(std::string file_path);
-  
 
   int get_status() const;
   OBJFile get_obj() const;
+  void set_obj(const std::vector<double> &new_vertexes);
   Parser() : obj_file_({0, 0, {}, {}}) {}
 };
 
