@@ -26,7 +26,7 @@ class MainWindow : public QMainWindow {
   Q_OBJECT
 
  public:
-  MainWindow(QWidget *parent = nullptr, controller *c1 = nullptr);
+  MainWindow(QWidget *parent = nullptr, Controller *c1 = nullptr);
   ~MainWindow();
 
  private slots:
@@ -63,12 +63,12 @@ class MainWindow : public QMainWindow {
   void on_gif_clicked();
   void load_settings();
   void save_settings();
+  void on_reset_clicked();
 
  private:
-  OBJFile obj_data_;
   Ui::MainWindow *ui_;
   GLWidget *glWidget_;
-  controller *c_;
+  Controller *c_;
   s21::Gif *gif_;
   QSettings *settings_;
 };

@@ -50,7 +50,10 @@ void s21::Parser::ReadingFacetsAndVertexes(std::string file_path) {
 }
 
 void s21::Parser::clearData() {
-  obj_file_ = OBJFile{};
+  obj_file_.facets.clear();
+  obj_file_.vertexes.clear();
+  obj_file_.num_facets = 0;
+  obj_file_.num_vertexes = 0;
   status_ = 0;
 }
 
@@ -63,6 +66,7 @@ std::string s21::Parser::FindFileName(std::string file_path) {
   }
   return start;
 }
+
 void s21::Parser::set_obj(const std::vector<double> &new_vertexes){
     obj_file_.vertexes = new_vertexes;
 }

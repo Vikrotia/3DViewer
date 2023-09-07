@@ -2,12 +2,12 @@
 
 #include "ui_mainwindow.h"
 
-s21::MainWindow::MainWindow(QWidget* parent, controller* c1)
+s21::MainWindow::MainWindow(QWidget* parent, Controller* c1)
     : QMainWindow(parent), ui_(new Ui::MainWindow), c_(c1) {
   ui_->setupUi(this);
 
   LoadAndScaleImages();
-  glWidget_ = new GLWidget(this, &obj_data_);
+  glWidget_ = new GLWidget(this);
 
   ui_->layoutForOpenGL->addWidget(glWidget_);
 
@@ -16,6 +16,7 @@ s21::MainWindow::MainWindow(QWidget* parent, controller* c1)
   gif_->setUI(ui_);
   settings_ = new QSettings("21school", "3D_Viewer");
   load_settings();
+  glWidget_->controller_ = c_;
 }
 
 s21::MainWindow::~MainWindow() {
@@ -63,53 +64,62 @@ void s21::MainWindow::on_load_clicked() {
 void s21::MainWindow::on_start_pressed() {
   std::string str = ui_->label->text().toStdString();
   glWidget_->clearModel();
-  c_->Processing(str);
-  obj_data_ = c_->get_obj();
-
+  bool status = c_->Processing(str);
   ui_->start->setDisabled(1);
   ui_->start->setDisabled(0);
-
-  ui_->VerticesLabel->setText(QString::number(obj_data_.num_vertexes));
-  ui_->EdgesLabel->setText(QString::number(obj_data_.num_facets / 3));
-
-  std::string std_filename = ui_->label->text().toStdString();
-  ui_->file_name->setText(
-      QString::fromStdString(c_->FindFileName(std_filename)));
-  glWidget_->file_exist = true;
-  glWidget_->update();
+  if (!status){
+    ui_->VerticesLabel->setText(QString::number(c_->GetVerticesSize()));
+    ui_->EdgesLabel->setText(QString::number(c_->GetFacetsSize()));
+    std::string std_filename = ui_->label->text().toStdString();
+    ui_->file_name->setText(
+    QString::fromStdString(c_->FindFileName(std_filename)));
+    glWidget_->file_exist = true;
+    glWidget_->update();
+  } else {
+      QMessageBox messageBoxGif;
+      messageBoxGif.information(0, "", "Incorrect file");
+      ui_->label->setText("");
+  }
 }
 
 void s21::MainWindow::on_X_valueChanged(double arg1) {
+  c_->MoveOnX(arg1-glWidget_->x_coord);
   glWidget_->x_coord = arg1;
   glWidget_->update();
 }
 
 void s21::MainWindow::on_Y_valueChanged(double arg1) {
+  c_->MoveOnY(arg1-glWidget_->y_coord);
   glWidget_->y_coord = arg1;
   glWidget_->update();
 }
 
 void s21::MainWindow::on_Z_valueChanged(double arg1) {
+  c_->MoveOnZ(arg1-glWidget_->z_coord);
   glWidget_->z_coord = arg1;
   glWidget_->update();
 }
 
 void s21::MainWindow::on_X_2_valueChanged(double arg1) {
+  c_->ChangeRotateOnX(arg1 - glWidget_->x_coord_rotate);
   glWidget_->x_coord_rotate = arg1;
   glWidget_->update();
 }
 
 void s21::MainWindow::on_Y_2_valueChanged(double arg1) {
+    c_->ChangeRotateOnY(arg1 - glWidget_->y_coord_rotate);
   glWidget_->y_coord_rotate = arg1;
   glWidget_->update();
 }
 
 void s21::MainWindow::on_Z_2_valueChanged(double arg1) {
+    c_->ChangeRotateOnZ(arg1 - glWidget_->z_coord_rotate);
   glWidget_->z_coord_rotate = arg1;
   glWidget_->update();
 }
 
 void s21::MainWindow::on_X_3_valueChanged(double arg1) {
+    c_->ChangeScale(arg1 / glWidget_->scale_x);
   glWidget_->scale_x = arg1;
   glWidget_->update();
 }
@@ -264,4 +274,27 @@ void s21::MainWindow::save_settings() {
   settings_->setValue("backround_blue", ui_->blue->value());
   settings_->setValue("verticle_Size", ui_->verticle_Size->value());
   settings_->setValue("lineWidth", ui_->lineWidth->value());
+}
+
+
+
+void s21::MainWindow::on_reset_clicked()
+{
+    ui_->projection_type->setChecked(false);
+    ui_->radioButton->setChecked(false);
+    ui_->radioButton_2->setChecked(false);
+    ui_->radioButton_3->setChecked(false);
+    ui_->radioButton_5->setChecked(false);
+    ui_->radioButton_6->setChecked(false);
+    ui_->red_verticle->setValue(0.0);
+    ui_->green_verticle->setValue(0.0);
+    ui_->blue_verticle->setValue(0.0);
+    ui_->red_line->setValue(0.0);
+    ui_->green_line->setValue(0.0);
+    ui_->blue_line->setValue(0.0);
+    ui_->red->setValue(0.0);
+    ui_->gren->setValue(0.0);
+    ui_->blue->setValue(0.0);
+    ui_->verticle_Size->setValue(0.0);
+    ui_->lineWidth->setValue(0.0);
 }

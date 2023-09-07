@@ -18,12 +18,16 @@ namespace s21 {
         void MoveOnX(double value);
         void MoveOnY(double value);
         void MoveOnZ(double value);
-//        void ApplyChanges();
 
+        std::vector<double>::value_type *GetVerticesData();
+        std::vector<int>::value_type *GetFacetsData();
+        size_t GetVerticesSize();
+        size_t GetFacetsSize();
+        void ClearData();
     private:
-        Parser* parser_;
-        Affine* affine_;
-
+        Parser parser_;
+        Affine affine_;
+        OBJFile ObjData_;
     };
 
 } //namespace s21

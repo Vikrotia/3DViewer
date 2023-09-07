@@ -1,7 +1,9 @@
 #include "glwidget.h"
 
-s21::GLWidget::GLWidget(QWidget *parent, s21::OBJFile *objData)
-    : QOpenGLWidget(parent), objData_(objData) {}
+
+
+s21::GLWidget::GLWidget(QWidget *parent)
+    : QOpenGLWidget(parent) {}
 
 void s21::GLWidget::initializeGL() {
   glClearColor(c_red, c_green, c_blue, 1.0f);
@@ -16,47 +18,39 @@ void s21::GLWidget::resizeGL(int w, int h) {
 
 void s21::GLWidget::paintGL() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glVertexPointer(3, GL_DOUBLE, 0, objData_->vertexes.data());
+  glVertexPointer(3, GL_DOUBLE, 0, controller_->GetVerticesData());
   glClearColor(c_red, c_green, c_blue, 1.0f);
-  glEnableClientState(GL_VERTEX_ARRAY);
   glLoadIdentity();
-  glMatrixMode(GL_MODELVIEW);
+  glMatrixMode(GL_PROJECTION);
 
-  if (projection_type == 0)
+  if (projection_type == 0) {
     glOrtho(-5, 5, -5, 5, 0.1f, 2000);
-  else
+  } else {
     gluPerspective(90.0f, width() / height(), 0.1f, 1000.0f);
 
-  glTranslated(x_coord, y_coord, z_coord);
-  glScaled(scale_x, scale_y, 1);
-
-  glRotatef(y_rot, 1, 0, 0);
-  glRotatef(y_rot, 0, 1, 0);
-  glRotatef(z_coord_rotate, 0, 0, 1);
-
+  }
+  glEnableClientState(GL_VERTEX_ARRAY);
+  glColor3f(v_red, v_green, v_blue);
+  glPointSize(verticle_width);
+  verticleMode();
   glLineWidth(line_width);
   glColor3f(l_red, l_green, l_blue);
   stipple();
 
-  glDrawElements(GL_LINES, objData_->facets.size(), GL_UNSIGNED_INT,
-                 objData_->facets.data());
-  glColor3f(v_red, v_green, v_blue);
-  glPointSize(verticle_width);
-  verticleMode();
+  glDrawElements(GL_LINES, controller_->GetFacetsSize(), GL_UNSIGNED_INT,
+                 controller_->GetFacetsData());
+
   glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 void s21::GLWidget::clearModel() {
-  objData_->facets.clear();
-  objData_->vertexes.clear();
-  objData_->num_vertexes = 0;
-  objData_->num_facets = 0;
+  controller_->ClearData();
   update();
 }
 
 void s21::GLWidget::mouseMoveEvent(QMouseEvent *mo) {
-  x_rot = 1 / M_PI * (mo->pos().y() - m_pos.y());
-  y_rot = 1 / M_PI * (mo->pos().x() - m_pos.x());
+  controller_->ChangeRotateOnX(1 / M_PI * (mo->pos().y() - m_pos.y()));
+  controller_->ChangeRotateOnY(1 / M_PI * (mo->pos().x() - m_pos.x()));
   update();
 }
 
@@ -77,10 +71,13 @@ void s21::GLWidget::stipple() {
 void s21::GLWidget::verticleMode() {
   if (verticle_mode == 1 && file_exist) {
     if (!glIsEnabled(GL_POINT_SMOOTH)) glEnable(GL_POINT_SMOOTH);
-    glDrawArrays(GL_POINTS, 0, objData_->num_vertexes);
+    glDrawArrays(GL_POINTS, 0, controller_->GetVerticesSize() / 3);
   } else if (verticle_mode == 2 && file_exist) {
     if (glIsEnabled(GL_POINT_SMOOTH)) glDisable(GL_POINT_SMOOTH);
-    glDrawArrays(GL_POINTS, 0, objData_->num_vertexes);
+    glDrawArrays(GL_POINTS, 0, controller_->GetVerticesSize() / 3);
   }
   update();
 }
+
+
+

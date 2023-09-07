@@ -13,6 +13,8 @@ CONFIG += c++17
 
 SOURCES += \
     ../controller/controller.cpp \
+    ../model/affine.cpp \
+    ../model/model.cpp \
     gif.cpp \
     glwidget.cpp \
     ../main.cpp \
@@ -21,6 +23,8 @@ SOURCES += \
 
 HEADERS += \
     ../controller/controller.h \
+    ../model/affine.h \
+    ../model/model.h \
     gif.h \
     glwidget.h \
     mainwindow.h \

@@ -1,18 +1,78 @@
 #include "controller.h"
 
+s21::Controller* s21::Controller::instance_ = nullptr;
 
+s21::Controller::Controller(Model* mod) : m_(mod) {}
 
-void s21::controller::Processing(std::string file_path)
-{
-    p_->Processing(file_path);
+s21::Controller* s21::Controller::getInstance(Model* mod) {
+    if (!instance_) {
+        instance_ = new Controller(mod);
+    }
+    return instance_;
 }
 
-s21::OBJFile s21::controller::get_obj()
+
+bool s21::Controller::Processing(std::string file_path)
 {
-    return p_->get_obj();
+    return m_->Processing(file_path);
 }
 
-std::string s21::controller::FindFileName(std::string file_path)
+s21::OBJFile s21::Controller::get_obj()
 {
-    return p_->FindFileName(file_path);
+    return m_->get_obj();
 }
+
+std::string s21::Controller::FindFileName(std::string file_path)
+{
+    return m_->FindFileName(file_path);
+}
+
+std::vector<double>::value_type* s21::Controller::GetVerticesData() {
+    return m_->GetVerticesData();
+}
+
+std::vector<int>::value_type* s21::Controller::GetFacetsData() {
+    return m_->GetFacetsData();
+}
+
+size_t s21::Controller::GetVerticesSize() {
+    return m_->GetVerticesSize();
+}
+
+size_t s21::Controller::GetFacetsSize() {
+    return m_->GetFacetsSize();
+}
+
+void s21::Controller::ClearData() {
+    m_->ClearData();
+}
+
+void s21::Controller::ChangeScale(double value){
+    m_->ChangeScale(value);
+}
+
+void s21::Controller::ChangeRotateOnX(double value){
+    m_->ChangeRotateOnX(value);
+}
+
+void s21::Controller::ChangeRotateOnY(double value){
+    m_->ChangeRotateOnY(value);
+}
+
+void s21::Controller::ChangeRotateOnZ(double value){
+    m_->ChangeRotateOnZ(value);
+}
+
+void s21::Controller::MoveOnX(double value){
+    m_->MoveOnX(value);
+}
+
+void s21::Controller::MoveOnY(double value){
+    m_->MoveOnY(value);
+}
+
+void s21::Controller::MoveOnZ(double value){
+    m_->MoveOnZ(value);
+}
+
+

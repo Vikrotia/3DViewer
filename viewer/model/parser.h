@@ -6,12 +6,13 @@
 #include <string>
 #include <vector>
 namespace s21 {
+
 struct OBJFile {
-  int num_vertexes;
-  int num_facets;
-  std::vector<double> vertexes;
-  std::vector<int> facets;
-};
+   int num_vertexes;
+   int num_facets;
+   std::vector<double> vertexes;
+   std::vector<int> facets;
+ };
 
 class Parser {
  public:

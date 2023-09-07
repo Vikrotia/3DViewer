@@ -28,7 +28,8 @@ class Gif : public QObject {
   void make_gif();
   void button_screen_pressed(QWidget *parent);
 
- private:
+
+private:
   QTimer *timer_;
   QString gif_name_;
   QGifImage *gif_frame_;

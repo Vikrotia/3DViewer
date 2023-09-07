@@ -13,8 +13,8 @@ void s21::Affine::ChangeRotateOnX(double value) {
   for (auto i = 0; i < vertices_.size(); i += 3) {
     double y = vertices_[i + 1];
     double z = vertices_[i + 2];
-    vertices_[i + 1] = y * std::cos(value) + z * std::sin(value);
-    vertices_[i + 2] = -y * std::sin(value) + z * std::cos(value);
+    vertices_[i + 1] = y * std::cos(value) - z * std::sin(value);
+    vertices_[i + 2] = y * std::sin(value) + z * std::cos(value);
   }
 }
 
@@ -33,8 +33,8 @@ void s21::Affine::ChangeRotateOnZ(double value) {
   for (auto i = 0; i < vertices_.size(); i += 3) {
     double x = vertices_[i];
     double y = vertices_[i + 1];
-    vertices_[i] = x * std::cos(value) + y * std::sin(value);
-    vertices_[i + 1] = -x * std::sin(value) + y * std::cos(value);
+    vertices_[i] = x * std::cos(value) - y * std::sin(value);
+    vertices_[i + 1] = x * std::sin(value) + y * std::cos(value);
   }
 }
 
