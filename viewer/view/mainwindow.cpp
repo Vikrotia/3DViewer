@@ -64,7 +64,7 @@ void s21::MainWindow::on_load_clicked() {
 void s21::MainWindow::on_start_pressed() {
   std::string str = ui_->label->text().toStdString();
   glWidget_->clearModel();
-  bool status = c_->Processing(str);
+  bool status = c_->use(str);
   ui_->start->setDisabled(1);
   ui_->start->setDisabled(0);
   if (!status){
@@ -91,6 +91,7 @@ void s21::MainWindow::on_X_valueChanged(double arg1) {
 void s21::MainWindow::on_Y_valueChanged(double arg1) {
   c_->MoveOnY(arg1-glWidget_->y_coord);
   glWidget_->y_coord = arg1;
+
   glWidget_->update();
 }
 
@@ -119,15 +120,11 @@ void s21::MainWindow::on_Z_2_valueChanged(double arg1) {
 }
 
 void s21::MainWindow::on_X_3_valueChanged(double arg1) {
-    c_->ChangeScale(arg1 / glWidget_->scale_x);
+  c_->ChangeScale(arg1 / glWidget_->scale_x);
   glWidget_->scale_x = arg1;
   glWidget_->update();
 }
 
-void s21::MainWindow::on_Y_3_valueChanged(double arg1) {
-  glWidget_->scale_y = arg1;
-  glWidget_->update();
-}
 
 void s21::MainWindow::on_projection_type_toggled(bool checked) {
   glWidget_->projection_type = 1;
@@ -160,6 +157,10 @@ void s21::MainWindow::on_radioButton_2_toggled(bool checked) {
 
 void s21::MainWindow::on_radioButton_3_toggled(bool checked) {
   glWidget_->mode = 1;
+}
+
+void s21::MainWindow::on_radioButton_7_toggled(bool checked){
+    glWidget_->verticle_mode = 2;
 }
 
 void s21::MainWindow::on_lineWidth_valueChanged(double arg1) {

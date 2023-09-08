@@ -774,28 +774,7 @@ color:rgb(63, 3, 113);</string>
      <string notr="true">color:black;</string>
     </property>
     <property name="text">
-     <string>SX:</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_23">
-    <property name="geometry">
-     <rect>
-      <x>70</x>
-      <y>800</y>
-      <width>41</width>
-      <height>21</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>17</pointsize>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">color:black;</string>
-    </property>
-    <property name="text">
-     <string>SY:</string>
+     <string>Scale:</string>
     </property>
    </widget>
    <widget class="QDoubleSpinBox" name="X_3">
@@ -816,27 +795,8 @@ color:rgb(63, 3, 113);</string>
      <string notr="true">background-color:white;
 color:rgb(63, 3, 113);</string>
     </property>
-   </widget>
-   <widget class="QDoubleSpinBox" name="Y_3">
-    <property name="geometry">
-     <rect>
-      <x>120</x>
-      <y>790</y>
-      <width>121</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <pointsize>16</pointsize>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color:white;
-color:rgb(63, 3, 113);</string>
-    </property>
     <property name="minimum">
-     <double>-100.000000000000000</double>
+     <double>1.000000000000000</double>
     </property>
    </widget>
    <widget class="QRadioButton" name="projection_type">
@@ -1176,8 +1136,8 @@ color:rgb(63, 3, 113);</string>
      <rect>
       <x>1150</x>
       <y>290</y>
-      <width>99</width>
-      <height>20</height>
+      <width>101</width>
+      <height>21</height>
      </rect>
     </property>
     <property name="font">
@@ -1189,8 +1149,11 @@ color:rgb(63, 3, 113);</string>
      <string notr="true">color:black;</string>
     </property>
     <property name="text">
-     <string>On</string>
+     <string>Round</string>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">buttonGroup_3</string>
+    </attribute>
    </widget>
    <widget class="QRadioButton" name="radioButton_6">
     <property name="geometry">
@@ -1215,6 +1178,9 @@ color:rgb(63, 3, 113);</string>
     <property name="checked">
      <bool>true</bool>
     </property>
+    <attribute name="buttonGroup">
+     <string notr="true">buttonGroup_3</string>
+    </attribute>
    </widget>
    <widget class="QLabel" name="label_24">
     <property name="geometry">
@@ -1612,6 +1578,30 @@ QPushButton:pressed {
      <string>Reset settings</string>
     </property>
    </widget>
+   <widget class="QRadioButton" name="radioButton_7">
+    <property name="geometry">
+     <rect>
+      <x>1240</x>
+      <y>290</y>
+      <width>101</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>16</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color:black;</string>
+    </property>
+    <property name="text">
+     <string>Square</string>
+    </property>
+    <attribute name="buttonGroup">
+     <string notr="true">buttonGroup_3</string>
+    </attribute>
+   </widget>
    <zorder>label_2</zorder>
    <zorder>label_16</zorder>
    <zorder>verticalLayoutWidget</zorder>
@@ -1646,9 +1636,7 @@ QPushButton:pressed {
    <zorder>label_21</zorder>
    <zorder>Z_2</zorder>
    <zorder>label_22</zorder>
-   <zorder>label_23</zorder>
    <zorder>X_3</zorder>
-   <zorder>Y_3</zorder>
    <zorder>label_24</zorder>
    <zorder>label_25</zorder>
    <zorder>label_26</zorder>
@@ -1683,12 +1671,14 @@ QPushButton:pressed {
    <zorder>screenshot</zorder>
    <zorder>gif</zorder>
    <zorder>reset</zorder>
+   <zorder>radioButton_7</zorder>
   </widget>
  </widget>
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroup"/>
   <buttongroup name="buttonGroup_2"/>
+  <buttongroup name="buttonGroup"/>
+  <buttongroup name="buttonGroup_3"/>
  </buttongroups>
 </ui>

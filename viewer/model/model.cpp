@@ -1,6 +1,5 @@
 #include "model.h"
 
-#include <qDebug>
 
 bool s21::Model::Processing(const std::string& file_name){
     bool status = parser_.Processing(file_name);
@@ -31,6 +30,7 @@ void s21::Model::ClearData() {
     ObjData_.num_vertexes = 0;
 }
 
+
 s21::OBJFile s21::Model::get_obj()
 {
     return parser_.get_obj();
@@ -45,6 +45,8 @@ void s21::Model::ChangeScale(double value){
     affine_.set_vertices(ObjData_.vertexes);
     affine_.ChangeScale(value);
     ObjData_.vertexes = affine_.get_vertices();
+
+
 }
 
 void s21::Model::ChangeRotateOnX(double value){

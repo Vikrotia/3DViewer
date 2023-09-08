@@ -62,3 +62,5 @@ void s21::Gif::setGLWidget(GLWidget *glWidget) { glWidget_ = glWidget; }
 void s21::Gif::setUI(Ui::MainWindow *ui) { ui_ = ui; }
 
 s21::Gif::~Gif() { delete timer_; }
+
+

@@ -2,24 +2,23 @@
 #define GLWIDGET_H
 
 #include <GLUT/glut.h>
+#include <OpenGL/gl.h>
 
 #include <QMouseEvent>
 #include <QOpenGLWidget>
 #include <QtOpenGL>
 #include <QWidget>
 #include <vector>
-
 #include "../controller/controller.h"
-#define GL_SILENCE_DEPRECATION
 
-#include <OpenGL/gl.h>
 namespace s21 {
 class GLWidget : public QOpenGLWidget {
   Q_OBJECT
  public:
   explicit GLWidget(QWidget *parent = nullptr);
 
- public slots:
+
+public slots:
   void initializeGL() override;
   void resizeGL(int w, int h) override;
   void paintGL() override;
@@ -30,7 +29,6 @@ class GLWidget : public QOpenGLWidget {
  private:
   void mouseMoveEvent(QMouseEvent *mo) override;
   void mousePressEvent(QMouseEvent *mo) override;
-//  s21::OBJFile *objData_;
 
  public:
   float x_coord = 0, y_coord = 0, z_coord = 0;
@@ -43,7 +41,6 @@ class GLWidget : public QOpenGLWidget {
   float v_red = 1.0, v_blue = 0.0, v_green = 0.0;
   float l_red = 0.0, l_blue = 0.0, l_green = 1.0;
   bool file_exist = false;
-
   Controller* controller_;
   float x_rot, y_rot;
   QPoint m_pos;

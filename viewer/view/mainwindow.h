@@ -39,7 +39,6 @@ class MainWindow : public QMainWindow {
   void on_Y_2_valueChanged(double arg1);
   void on_Z_2_valueChanged(double arg1);
   void on_X_3_valueChanged(double arg1);
-  void on_Y_3_valueChanged(double arg1);
   void on_projection_type_toggled(bool checked);
   void on_radioButton_toggled(bool checked);
   void on_red_valueChanged(double arg1);
@@ -47,6 +46,7 @@ class MainWindow : public QMainWindow {
   void on_blue_valueChanged(double arg1);
   void on_radioButton_2_toggled(bool checked);
   void on_radioButton_3_toggled(bool checked);
+  void on_radioButton_7_toggled(bool checked);
   void on_lineWidth_valueChanged(double arg1);
   void on_verticle_Size_valueChanged(double arg1);
   void on_red_verticle_valueChanged(double arg1);

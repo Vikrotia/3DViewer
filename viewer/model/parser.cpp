@@ -19,29 +19,29 @@ bool s21::Parser::Processing(std::string file_path) {
 }
 
 void s21::Parser::ReadingFacetsAndVertexes(std::string file_path) {
-  std::ifstream input_file(file_path);
-  std::string file_line;
+  std::ifstream input(file_path);
+  std::string line;
 
-  while (std::getline(input_file, file_line)) {
-    std::istringstream iss(file_line);
-    std::string str_type;
-    iss >> str_type;
-    if (str_type == "v") {
+  while (std::getline(input, line)) {
+    std::istringstream iss(line);
+    std::string token;
+    iss >> token;
+    if (token == "v") {
       double x, y, z;
       if (iss >> x >> y >> z) {
         obj_file_.vertexes.push_back(x);
         obj_file_.vertexes.push_back(y);
         obj_file_.vertexes.push_back(z);
       }
-    } else if (str_type == "f") {
+    } else if (token == "f") {
       std::string index;
-      std::vector<int> f_line;
+      std::vector<int> fac_line;
       while (iss >> index) {
-        f_line.push_back(std::stoi(index));
+        fac_line.push_back(std::stoi(index));
       }
-      for (size_t i = 0; i < f_line.size(); ++i) {
-        obj_file_.facets.push_back(f_line[i] - 1);
-        obj_file_.facets.push_back(f_line[(i + 1) % f_line.size()] - 1);
+      for (size_t i = 0; i < fac_line.size(); ++i) {
+        obj_file_.facets.push_back(fac_line[i] - 1);
+        obj_file_.facets.push_back(fac_line[(i + 1) % fac_line.size()] - 1);
       }
       obj_file_.num_facets++;
     }

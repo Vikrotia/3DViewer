@@ -15,6 +15,7 @@ SOURCES += \
     ../controller/controller.cpp \
     ../model/affine.cpp \
     ../model/model.cpp \
+    ../model/strategy.cpp \
     gif.cpp \
     glwidget.cpp \
     ../main.cpp \
@@ -25,6 +26,7 @@ HEADERS += \
     ../controller/controller.h \
     ../model/affine.h \
     ../model/model.h \
+    ../model/strategy.h \
     gif.h \
     glwidget.h \
     mainwindow.h \

@@ -47,6 +47,11 @@ void s21::Controller::ClearData() {
     m_->ClearData();
 }
 
+bool s21::Controller::use(std::string file_path)
+{
+    return m_->use(file_path);
+}
+
 void s21::Controller::ChangeScale(double value){
     m_->ChangeScale(value);
 }

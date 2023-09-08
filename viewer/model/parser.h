@@ -5,6 +5,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include "strategy.h"
 namespace s21 {
 
 struct OBJFile {
@@ -14,23 +15,23 @@ struct OBJFile {
    std::vector<int> facets;
  };
 
-class Parser {
- public:
+class Parser{
+
+ private:
   int status_ = 0;
   OBJFile obj_file_;
   std::ifstream input_file_;
-  std::string file_name;
 
+  public:
+   Parser() : obj_file_({0, 0, {}, {}}) {}
   bool Processing(std::string file_path);
   bool OpenFile(std::string file_path);
   void ReadingFacetsAndVertexes(std::string file_path);
   void clearData();
   std::string FindFileName(std::string file_path);
-
-  int get_status() const;
   OBJFile get_obj() const;
+  int get_status() const;
   void set_obj(const std::vector<double> &new_vertexes);
-  Parser() : obj_file_({0, 0, {}, {}}) {}
 };
 
 }  // namespace s21

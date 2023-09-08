@@ -1,7 +1,6 @@
 #include "glwidget.h"
 
 
-
 s21::GLWidget::GLWidget(QWidget *parent)
     : QOpenGLWidget(parent) {}
 

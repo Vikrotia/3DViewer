@@ -10,6 +10,7 @@ private:
     Model *m_;
     Controller(Model *mod);
     static Controller* instance_;
+
 public:
     static Controller* getInstance(Model* mod);
     bool Processing(std::string file_path);
@@ -27,6 +28,7 @@ public:
     size_t GetVerticesSize();
     size_t GetFacetsSize();
     void ClearData();
+    bool use(std::string file_path);
 };
 
 }

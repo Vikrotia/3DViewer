@@ -2,7 +2,6 @@
 #define GIF_H
 
 #include <qgifimage.h>
-
 #include <QDateTime>
 #include <QFileDialog>
 #include <QMessageBox>

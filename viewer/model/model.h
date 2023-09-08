@@ -1,12 +1,15 @@
 #ifndef VIEWER_MODEL_H
 #define VIEWER_MODEL_H
 
+#include <list>
+
 #include "parser.h"
 #include "affine.h"
 
 namespace s21 {
-    class Model {
+    class Model: public Strategy  {
     public:
+        static Model *getInstance();
         bool Processing(const std::string& file_name);
         s21::OBJFile get_obj();
         void set_obj_parser(const std::vector<double> &new_vertexes);
@@ -24,10 +27,15 @@ namespace s21 {
         size_t GetVerticesSize();
         size_t GetFacetsSize();
         void ClearData();
+        bool use(const std::string& file_path) override {
+                return Processing(file_path);
+        }
+
     private:
         Parser parser_;
         Affine affine_;
         OBJFile ObjData_;
+
     };
 
 } //namespace s21
