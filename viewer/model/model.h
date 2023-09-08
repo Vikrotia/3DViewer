@@ -26,6 +26,8 @@ namespace s21 {
         std::vector<int>::value_type *GetFacetsData();
         size_t GetVerticesSize();
         size_t GetFacetsSize();
+        size_t GetVerticesNum();
+        size_t GetFacetsNum();
         void ClearData();
         bool use(const std::string& file_path) override {
                 return Processing(file_path);

@@ -27,6 +27,8 @@ public:
     std::vector<int>::value_type *GetFacetsData();
     size_t GetVerticesSize();
     size_t GetFacetsSize();
+    size_t GetVerticesNum();
+    size_t GetFacetsNum();
     void ClearData();
     bool use(std::string file_path);
 };

@@ -21,6 +21,7 @@ bool s21::Parser::Processing(std::string file_path) {
 void s21::Parser::ReadingFacetsAndVertexes(std::string file_path) {
   std::ifstream input(file_path);
   std::string line;
+  int num_vertexes = 0;
 
   while (std::getline(input, line)) {
     std::istringstream iss(line);
@@ -32,12 +33,17 @@ void s21::Parser::ReadingFacetsAndVertexes(std::string file_path) {
         obj_file_.vertexes.push_back(x);
         obj_file_.vertexes.push_back(y);
         obj_file_.vertexes.push_back(z);
+        num_vertexes++;
       }
     } else if (token == "f") {
       std::string index;
       std::vector<int> fac_line;
       while (iss >> index) {
-        fac_line.push_back(std::stoi(index));
+          int idx = std::stoi(index);
+          if (idx < 0) {
+               idx = num_vertexes + idx + 1;
+          }
+          fac_line.push_back(idx);
       }
       for (size_t i = 0; i < fac_line.size(); ++i) {
         obj_file_.facets.push_back(fac_line[i] - 1);
@@ -46,7 +52,7 @@ void s21::Parser::ReadingFacetsAndVertexes(std::string file_path) {
       obj_file_.num_facets++;
     }
   }
-  obj_file_.num_vertexes = static_cast<int>(obj_file_.vertexes.size() / 3);
+  obj_file_.num_vertexes = num_vertexes;
 }
 
 void s21::Parser::clearData() {

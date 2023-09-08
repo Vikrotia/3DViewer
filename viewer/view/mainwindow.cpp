@@ -68,8 +68,8 @@ void s21::MainWindow::on_start_pressed() {
   ui_->start->setDisabled(1);
   ui_->start->setDisabled(0);
   if (!status){
-    ui_->VerticesLabel->setText(QString::number(c_->GetVerticesSize()));
-    ui_->EdgesLabel->setText(QString::number(c_->GetFacetsSize()));
+    ui_->VerticesLabel->setText(QString::number(c_->GetVerticesNum()));
+    ui_->EdgesLabel->setText(QString::number(c_->GetFacetsNum()));
     std::string std_filename = ui_->label->text().toStdString();
     ui_->file_name->setText(
     QString::fromStdString(c_->FindFileName(std_filename)));

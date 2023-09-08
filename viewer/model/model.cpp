@@ -23,6 +23,14 @@ size_t s21::Model::GetFacetsSize() {
     return ObjData_.facets.size();
 }
 
+size_t s21::Model::GetVerticesNum() {
+    return ObjData_.num_vertexes;
+}
+
+size_t s21::Model::GetFacetsNum() {
+    return ObjData_.num_facets;
+}
+
 void s21::Model::ClearData() {
     ObjData_.vertexes.clear();
     ObjData_.facets.clear();

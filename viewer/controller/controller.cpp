@@ -43,6 +43,16 @@ size_t s21::Controller::GetFacetsSize() {
     return m_->GetFacetsSize();
 }
 
+size_t s21::Controller::GetVerticesNum()
+{
+    return m_->GetVerticesNum();
+}
+
+size_t s21::Controller::GetFacetsNum()
+{
+    return m_->GetFacetsNum();
+}
+
 void s21::Controller::ClearData() {
     m_->ClearData();
 }
